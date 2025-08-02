@@ -9,8 +9,12 @@ import {
     type CarouselApi,
 } from "@/components/ui/carousel";
 import { testimonials } from "@/app/api/testimonial";
+import { useTranslations, useLocale } from 'next-intl';
 
 const Testimonial = () => {
+    const t = useTranslations('Testimonial');
+    const locale = useLocale();
+    const isArabic = locale === 'ar';
     const [api, setApi] = React.useState<CarouselApi | undefined>(undefined);
     const [current, setCurrent] = React.useState(0);
     const [count, setCount] = React.useState(0);
@@ -34,7 +38,7 @@ const Testimonial = () => {
 
     return (
         <section className="bg-dark relative overflow-hidden" id="testimonial">
-            <div className="absolute right-0">
+            <div className={`absolute ${isArabic ? 'left-0' : 'right-0'}`}>
                 <Image
                     src="/images/testimonial/Vector.png"
                     alt="victor"
@@ -47,10 +51,10 @@ const Testimonial = () => {
                 <div>
                     <p className="text-white text-base font-semibold flex gap-2">
                         <Icon icon="ph:house-simple-fill" className="text-2xl text-primary" />
-                        Testimonials
+                        {t('testimonials')}
                     </p>
                     <h2 className="lg:text-52 text-40 font-medium text-white">
-                        What our clients say
+                        {t('whatOurClientsSay')}
                     </h2>
                 </div>
                 <Carousel
@@ -62,25 +66,31 @@ const Testimonial = () => {
                     <CarouselContent>
                         {testimonials.map((item, index) => (
                             <CarouselItem key={index} className="mt-9">
-                                <div className="lg:flex items-center gap-11">
-                                    <div className="flex items-start gap-11 lg:pr-20">
+                                <div className={`lg:flex items-center gap-11 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                                    <div className={`flex items-start gap-11 ${isArabic ? 'lg:pl-20' : 'lg:pr-20'}`}>
                                         <div>
                                             <Icon icon="ph:house-simple" width={32} height={32} className="text-primary" />
                                         </div>
                                         <div>
-                                            <h4 className="text-white lg:text-3xl text-2xl">{item.review}</h4>
-                                            <div className="flex items-center mt-8 gap-6">
+                                            <h4 className="text-white lg:text-3xl text-2xl">
+                                                {locale === 'ar' && item.reviewAr ? item.reviewAr : item.review}
+                                            </h4>
+                                            <div className={`flex items-center mt-8 gap-6 ${isArabic ? 'flex-row-reverse' : ''}`}>
                                                 <Image
                                                     src={item.image}
-                                                    alt={item.name}
+                                                    alt={locale === 'ar' && item.nameAr ? item.nameAr : item.name}
                                                     width={80}
                                                     height={80}
                                                     className="rounded-full lg:hidden block"
                                                     unoptimized={true}
                                                 />
                                                 <div>
-                                                    <h6 className="text-white text-xm font-medium">{item.name}</h6>
-                                                    <p className="text-white/40">{item.position}</p>
+                                                    <h6 className="text-white text-xm font-medium">
+                                                        {locale === 'ar' && item.nameAr ? item.nameAr : item.name}
+                                                    </h6>
+                                                    <p className="text-white/40">
+                                                        {locale === 'ar' && item.positionAr ? item.positionAr : item.position}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -88,7 +98,7 @@ const Testimonial = () => {
                                     <div className="w-full h-full rounded-2xl overflow-hidden">
                                         <Image
                                             src={item.image}
-                                            alt={item.name}
+                                            alt={locale === 'ar' && item.nameAr ? item.nameAr : item.name}
                                             width={440}
                                             height={440}
                                             className="lg:block hidden"

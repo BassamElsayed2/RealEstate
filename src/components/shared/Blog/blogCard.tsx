@@ -3,9 +3,13 @@ import Image from "next/image";
 import { Blog } from "@/types/blog";
 import { format } from "date-fns";
 import Link from "next/link";
+import { useLocale } from 'next-intl';
 
 const BlogCard: FC<{ blog: Blog }> = ({ blog }) => {
     const { title, coverImage, date, slug, tag } = blog;
+    const locale = useLocale();
+    const isArabic = locale === 'ar';
+    
     return (
         <Link href={`/blogs/${slug}`} aria-label="blog cover 5xl:h-full 5xl:inline-block" className="gap-4 group">
             <div className="overflow-hidden rounded-2xl flex-shrink-0">
@@ -19,7 +23,7 @@ const BlogCard: FC<{ blog: Blog }> = ({ blog }) => {
                     unoptimized={true}
                 />
             </div>
-            <div className="flex justify-between items-center">
+            <div className={`flex justify-between items-center ${isArabic ? 'flex-row-reverse' : ''}`}>
                 <div>
                     <h3 className="mt-2 text-xl font-medium text-dark dark:text-white group-hover:text-primary">
                         {title}

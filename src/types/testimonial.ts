@@ -3,4 +3,7 @@ export type Testimonial = {
     name: string
     position: string
     image: string
+    nameAr?: string
+    reviewAr?: string
+    positionAr?: string
 }

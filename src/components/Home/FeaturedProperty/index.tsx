@@ -10,8 +10,12 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import { useTranslations, useLocale } from 'next-intl';
 
 const FeaturedProperty: React.FC = () => {
+  const t = useTranslations('FeaturedProperty');
+  const locale = useLocale();
+  const isArabic = locale === 'ar';
   const [api, setApi] = React.useState<CarouselApi | undefined>(undefined);
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
@@ -37,8 +41,8 @@ const FeaturedProperty: React.FC = () => {
   return (
     <section>
       <div className="container max-w-8xl mx-auto px-5 2xl:px-0">
-        <div className="grid lg:grid-cols-2 gap-10">
-          <div className="relative">
+        <div className={`grid lg:grid-cols-2 gap-10 ${isArabic ? 'lg:grid-cols-2' : ''}`}>
+          <div className={`relative ${isArabic ? 'lg:order-2' : ''}`}>
             <Carousel
               setApi={setApi}
               opts={{
@@ -60,7 +64,7 @@ const FeaturedProperty: React.FC = () => {
                 ))}
               </CarouselContent>
             </Carousel>
-            <div className="absolute left-2/5 bg-dark/50 rounded-full py-2.5 bottom-10 flex justify-center mt-4 gap-2.5 px-2.5">
+            <div className={`absolute ${isArabic ? 'right-2/5' : 'left-2/5'} bg-dark/50 rounded-full py-2.5 bottom-10 flex justify-center mt-4 gap-2.5 px-2.5`}>
               {Array.from({ length: count }).map((_, index) => (
                 <button
                   key={index}
@@ -70,26 +74,24 @@ const FeaturedProperty: React.FC = () => {
               ))}
             </div>
           </div>
-          <div className="flex flex-col gap-10">
+          <div className={`flex flex-col gap-10 ${isArabic ? 'lg:order-1' : ''}`}>
             <div>
               <p className="text-dark/75 dark:text-white/75 text-base font-semibold flex gap-2">
                 <Icon icon="ph:house-simple-fill" className="text-2xl text-primary " />
-                Featured property
+                {t('featuredProperty')}
               </p>
               <h2 className="lg:text-52 text-40 font-medium text-dark dark:text-white">
-                Modern luxe villa
+                {t('modernLuxeVilla')}
               </h2>
               <div className="flex items-center gap-2.5">
                 <Icon icon="ph:map-pin" width={28} height={26} className="text-dark/50 dark:text-white/50" />
                 <p className="text-dark/50 dark:text-white/50 text-base">
-                  20 S Aurora Ave, Miami
+                  {t('location')}
                 </p>
               </div>
             </div>
             <p className="text-base text-dark/50 dark:text-white/50">
-              Experience luxury living at modern luxe villa, located at 20 S Aurora Ave, Miami. Priced at $1,650,500, this 560 ft² smart home offers 4 bedrooms,
-              3 bathrooms, and spacious living areas. Enjoy energy efficiency, natural light, security systems, outdoor spaces, and 2 bar areas—perfect for 8+
-              guests. Built in 2025.
+              {t('experienceLuxuryLiving')}
             </p>
             <div className="grid grid-cols-2 gap-10">
               <div className="flex items-center gap-4">
@@ -111,7 +113,7 @@ const FeaturedProperty: React.FC = () => {
                     unoptimized={true}
                   />
                 </div>
-                <h6 className="">4 Bedrooms</h6>
+                <h6 className="">{t('bedrooms')}</h6>
               </div>
               <div className="flex items-center gap-4">
                 <div className="bg-dark/5 dark:bg-white/5 p-2.5 rounded-[6px]">
@@ -132,7 +134,7 @@ const FeaturedProperty: React.FC = () => {
                     unoptimized={true}
                   />
                 </div>
-                <h6 className="">3 Bathrooms</h6>
+                <h6 className="">{t('bathrooms')}</h6>
               </div>
               <div className="flex items-center gap-4">
                 <div className="bg-dark/5 dark:bg-white/5 p-2.5 rounded-[6px]">
@@ -153,7 +155,7 @@ const FeaturedProperty: React.FC = () => {
                     unoptimized={true}
                   />
                 </div>
-                <h6 className="">Parking Space</h6>
+                <h6 className="">{t('parkingSpace')}</h6>
               </div>
               <div className="flex items-center gap-4">
                 <div className="bg-dark/5 dark:bg-white/5 p-2.5 rounded-[6px]">
@@ -174,19 +176,19 @@ const FeaturedProperty: React.FC = () => {
                     unoptimized={true}
                   />
                 </div>
-                <h6 className="">2 Bar areas</h6>
+                <h6 className="">{t('barAreas')}</h6>
               </div>
             </div>
-            <div className="flex gap-10">
+            <div className={`flex gap-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
               <Link href="/contactus" className="py-4 px-8 bg-primary hover:bg-dark duration-300 rounded-full text-white">
-                Get in touch
+                {t('getInTouch')}
               </Link>
               <div>
                 <h4 className="text-3xl text-dark dark:text-white font-medium">
-                  $1,650,500
+                  {t('price')}
                 </h4>
                 <p className="text-base text-dark/50">
-                  Discounted price
+                  {t('discountedPrice')}
                 </p>
               </div>
             </div>

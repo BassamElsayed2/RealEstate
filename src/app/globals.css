@@ -121,3 +121,67 @@ section {
 .blog-details p {
   @apply text-dark dark:text-white text-xm leading-[1.2]
 }
+
+/* RTL Support */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .rtl-mirror {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .rtl-text-right {
+  text-align: right;
+}
+
+[dir="rtl"] .rtl-text-left {
+  text-align: left;
+}
+
+[dir="rtl"] .rtl-float-right {
+  float: right;
+}
+
+[dir="rtl"] .rtl-float-left {
+  float: left;
+}
+
+[dir="rtl"] .rtl-margin-right {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+[dir="rtl"] .rtl-margin-left {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .rtl-padding-right {
+  padding-right: 0;
+  padding-left: auto;
+}
+
+[dir="rtl"] .rtl-padding-left {
+  padding-left: 0;
+  padding-right: auto;
+}
+
+/* RTL specific animations */
+@keyframes slide-rtl {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(103%);
+  }
+}
+
+[dir="rtl"] .animate-slide {
+  animation: slide-rtl 20s linear infinite;
+}

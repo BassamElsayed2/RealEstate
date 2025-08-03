@@ -6,9 +6,11 @@ import { Icon } from '@iconify/react';
 import { testimonials } from '@/app/api/testimonial';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useLocale } from 'next-intl';
 
 export default function Details() {
     const { slug } = useParams();
+    const locale = useLocale();
 
     const item = propertyHomes.find((item) => item.slug === slug);
     return (
@@ -196,12 +198,18 @@ export default function Details() {
                         {testimonials.slice(0, 1).map((item, index) => (
                             <div key={index} className="border p-10 rounded-2xl border-dark/10 dark:border-white/20 mt-10 flex flex-col gap-6">
                                 <Icon icon="ph:house-simple" width={44} height={44} className="text-primary" />
-                                <p className='text-xm text-dark dark:text-white'>{item.review}</p>
+                                <p className='text-xm text-dark dark:text-white'>
+                                    {locale === 'ar' && item.reviewAr ? item.reviewAr : item.review}
+                                </p>
                                 <div className="flex items-center gap-6">
-                                    <Image src={item.image} alt={item.name} width={400} height={500} className='w-20 h-20 rounded-2xl' unoptimized={true} />
+                                    <Image src={item.image} alt={locale === 'ar' && item.nameAr ? item.nameAr : item.name} width={400} height={500} className='w-20 h-20 rounded-2xl' unoptimized={true} />
                                     <div className="">
-                                        <h3 className='text-xm text-dark dark:text-white'>{item.name}</h3>
-                                        <h4 className='text-base text-dark/50 dark:text-white/50'>{item.position}</h4>
+                                        <h3 className='text-xm text-dark dark:text-white'>
+                                            {locale === 'ar' && item.nameAr ? item.nameAr : item.name}
+                                        </h3>
+                                        <h4 className='text-base text-dark/50 dark:text-white/50'>
+                                            {locale === 'ar' && item.positionAr ? item.positionAr : item.position}
+                                        </h4>
                                     </div>
                                 </div>
                             </div>

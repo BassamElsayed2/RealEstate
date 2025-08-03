@@ -5,16 +5,32 @@ import Link from 'next/link'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import NavLink from './Navigation/NavLink'
 import { useTheme } from 'next-themes'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl';
 
 const Header: React.FC = () => {
+  const t = useTranslations('Header');
   const [sticky, setSticky] = useState(false)
   const [navbarOpen, setNavbarOpen] = useState(false)
   const { theme, setTheme } = useTheme()
   const pathname = usePathname()
+  const router = useRouter()
 
   const sideMenuRef = useRef<HTMLDivElement>(null)
+
+  // Get current locale from pathname - handle both /en and /ar paths
+  const pathSegments = pathname.split('/').filter(Boolean)
+  const currentLocale = pathSegments[0] === 'ar' ? 'ar' : 'en'
+  const isArabic = currentLocale === 'ar'
+
+  const handleLanguageChange = () => {
+    const newLocale = isArabic ? 'en' : 'ar'
+    // Remove current locale from path and add new one
+    const pathWithoutLocale = pathSegments.slice(1).join('/')
+    const newPath = `/${newLocale}${pathWithoutLocale ? `/${pathWithoutLocale}` : ''}`
+    router.push(newPath)
+  }
 
   const handleClickOutside = (event: MouseEvent) => {
     if (sideMenuRef.current && !sideMenuRef.current.contains(event.target as Node)) {
@@ -36,14 +52,14 @@ const Header: React.FC = () => {
     }
   }, [handleScroll])
 
-  const isHomepage = pathname === '/'
+  const isHomepage = pathname === '/en' || pathname === '/ar'
 
   return (
     <header className={`fixed h-24 py-1 z-50 w-full bg-transparent transition-all duration-300 lg:px-0 px-4 ${sticky ? "top-3" : "top-0"}`}>
       <nav className={`container mx-auto max-w-8xl flex items-center justify-between py-4 duration-300 ${sticky ? "shadow-lg bg-white dark:bg-dark rounded-full top-5 px-4 " : "shadow-none top-0"}`}>
         <div className='flex justify-between items-center gap-2 w-full'>
           <div>
-            <Link href='/'>
+            <Link href={`/${currentLocale}`}>
               <Image
                 src={'/images/header/dark-logo.svg'}
                 alt='logo'
@@ -62,7 +78,21 @@ const Header: React.FC = () => {
               />
             </Link>
           </div>
-          <div className='flex items-center gap-2 sm:gap-6'>
+          <div className={`flex items-center gap-2 sm:gap-6 ${isArabic ? 'flex-row-reverse' : ''}`}>
+            {/* Language Switcher */}
+            <button
+              onClick={handleLanguageChange}
+              className={`px-3 py-2 rounded-full text-sm font-medium border transition-colors ${
+                isHomepage
+                  ? sticky
+                    ? 'text-dark dark:text-white border-dark dark:border-white hover:bg-dark hover:text-white dark:hover:bg-white dark:hover:text-dark'
+                    : 'text-white border-white hover:bg-white hover:text-dark'
+                  : 'text-dark dark:text-white border-dark dark:border-white hover:bg-dark hover:text-white dark:hover:bg-white dark:hover:text-dark'
+              }`}
+            >
+              {isArabic ? 'EN' : 'AR '}
+            </button>
+            
             <button
               className='hover:cursor-pointer'
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
@@ -85,8 +115,8 @@ const Header: React.FC = () => {
                 className='dark:block hidden text-white'
               />
             </button>
-            <div className={`hidden md:block`}>
-              <Link href='#' className={`text-base text-inherit flex items-center gap-2 border-r pr-6 ${isHomepage
+            <div className={`hidden md:block ${isArabic ? 'border-l border-r-0 pr-0 pl-6' : 'border-r pr-6'}`}>
+              <Link href='#' className={`text-base text-inherit flex items-center gap-2 ${isHomepage
                 ? sticky
                   ? 'text-dark dark:text-white hover:text-primary border-dark dark:border-white'
                   : 'text-white hover:text-primary'
@@ -110,7 +140,7 @@ const Header: React.FC = () => {
                 <span>
                   <Icon icon={'ph:list'} width={24} height={24} />
                 </span>
-                <span className='hidden sm:block'>Menu</span>
+                <span className='hidden sm:block'>{t('menu')}</span>
               </button>
             </div>
           </div>
@@ -125,7 +155,7 @@ const Header: React.FC = () => {
 
       <div
         ref={sideMenuRef}
-        className={`fixed top-0 right-0 h-full w-full bg-dark shadow-lg transition-transform duration-300 max-w-2xl ${navbarOpen ? 'translate-x-0' : 'translate-x-full'} z-50 px-20 overflow-auto no-scrollbar`}
+        className={`fixed top-0 ${isArabic ? 'left-0' : 'right-0'} h-full w-full bg-dark shadow-lg transition-transform duration-300 max-w-2xl ${navbarOpen ? 'translate-x-0' : isArabic ? '-translate-x-full' : 'translate-x-full'} z-50 px-20 overflow-auto no-scrollbar`}
       >
         <div className="flex flex-col h-full justify-between">
           <div className="">

@@ -1,9 +1,8 @@
-import { NavLinks } from '@/types/navlink'
+import { NavLinks } from "@/types/navlink";
 
 export const navLinks: NavLinks[] = [
-  { label: 'Home', href: '/' },
-  { label: 'Properties', href: '/properties' },
-  { label: 'Blog', href: '/blogs' },
-  { label: 'Contact', href: '/contactus' },
-  { label: 'Docs', href: '/documentation' },
-]
+  { label_en: "Home", label_ar: "الرئيسيه", href: "/" },
+  { label_en: "Properties", label_ar: "العقارات", href: "/properties" },
+  { label_en: "Blog", label_ar: "مقالات", href: "/blogs" },
+  { label_en: "Contact", label_ar: "تواصل معنا", href: "/contactus" },
+];

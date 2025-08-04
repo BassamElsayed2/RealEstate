@@ -10,15 +10,17 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations, useLocale } from "next-intl";
+import { useQuery } from "@tanstack/react-query";
+import { getSpecialProperty } from "../Services/apiProperties";
 
 const FeaturedProperty: React.FC = () => {
-  const t = useTranslations('FeaturedProperty');
+  const t = useTranslations("FeaturedProperty");
   const locale = useLocale();
-  const isArabic = locale === 'ar';
   const [api, setApi] = React.useState<CarouselApi | undefined>(undefined);
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
+
   React.useEffect(() => {
     if (!api) {
       return;
@@ -37,24 +39,32 @@ const FeaturedProperty: React.FC = () => {
     }
   };
 
+  const { data: properties } = useQuery({
+    queryKey: ["special-property"],
+    queryFn: getSpecialProperty,
+  });
 
   return (
     <section>
       <div className="container max-w-8xl mx-auto px-5 2xl:px-0">
-        <div className={`grid lg:grid-cols-2 gap-10 ${isArabic ? 'lg:grid-cols-2' : ''}`}>
-          <div className={`relative ${isArabic ? 'lg:order-2' : ''}`}>
+        <div
+          className={`grid lg:grid-cols-2 gap-10 
+           `}
+        >
+          <div className={`relative `}>
             <Carousel
               setApi={setApi}
               opts={{
                 loop: true,
+                direction: locale === "ar" ? "rtl" : "ltr",
               }}
             >
               <CarouselContent>
-                {featuredProprty.map((item, index) => (
+                {properties?.images.map((item, index) => (
                   <CarouselItem key={index}>
                     <Image
-                      src={item.scr}
-                      alt={item.alt}
+                      src={item}
+                      alt={item}
                       width={680}
                       height={530}
                       className="rounded-2xl w-full h-540"
@@ -64,131 +74,124 @@ const FeaturedProperty: React.FC = () => {
                 ))}
               </CarouselContent>
             </Carousel>
-            <div className={`absolute ${isArabic ? 'right-2/5' : 'left-2/5'} bg-dark/50 rounded-full py-2.5 bottom-10 flex justify-center mt-4 gap-2.5 px-2.5`}>
+            <div
+              className={`absolute left-2/5 bg-dark/50 rounded-full py-2.5 bottom-10 flex justify-center mt-4 gap-2.5 px-2.5`}
+            >
               {Array.from({ length: count }).map((_, index) => (
                 <button
                   key={index}
                   onClick={() => handleDotClick(index)}
-                  className={`w-2.5 h-2.5 rounded-full ${current === index + 1 ? "bg-white" : "bg-white/50"}`}
+                  className={`w-2.5 h-2.5 rounded-full ${
+                    current === index + 1 ? "bg-white" : "bg-white/50"
+                  }`}
                 />
               ))}
             </div>
           </div>
-          <div className={`flex flex-col gap-10 ${isArabic ? 'lg:order-1' : ''}`}>
+          <div className={`flex flex-col gap-10 `}>
             <div>
               <p className="text-dark/75 dark:text-white/75 text-base font-semibold flex gap-2">
-                <Icon icon="ph:house-simple-fill" className="text-2xl text-primary " />
-                {t('featuredProperty')}
+                <Icon
+                  icon="ph:house-simple-fill"
+                  className="text-2xl text-primary "
+                />
+                {t("featuredProperty")}
               </p>
               <h2 className="lg:text-52 text-40 font-medium text-dark dark:text-white">
-                {t('modernLuxeVilla')}
+                {locale === "ar" ? properties?.name_ar : properties?.name_en}
               </h2>
               <div className="flex items-center gap-2.5">
-                <Icon icon="ph:map-pin" width={28} height={26} className="text-dark/50 dark:text-white/50" />
+                <Icon
+                  icon="ph:map-pin"
+                  width={28}
+                  height={26}
+                  className="text-dark/50 dark:text-white/50"
+                />
                 <p className="text-dark/50 dark:text-white/50 text-base">
-                  {t('location')}
+                  {locale === "ar"
+                    ? properties?.address_ar
+                    : properties?.address_en}
                 </p>
               </div>
             </div>
-            <p className="text-base text-dark/50 dark:text-white/50">
-              {t('experienceLuxuryLiving')}
-            </p>
+
+            <div
+              className="text-base text-dark/50 dark:text-white/50"
+              dangerouslySetInnerHTML={{
+                __html:
+                  (locale === "en"
+                    ? properties?.details_en
+                    : properties?.details_ar
+                  )
+                    ?.split(" ")
+                    .slice(0, 40)
+                    .join(" ") + "...",
+              }}
+            ></div>
+
             <div className="grid grid-cols-2 gap-10">
               <div className="flex items-center gap-4">
                 <div className="bg-dark/5 dark:bg-white/5 p-2.5 rounded-[6px]">
                   <Image
-                    src={'/images/hero/sofa.svg'}
-                    alt='sofa'
+                    src={"/images/hero/sofa.svg"}
+                    alt="sofa"
                     width={24}
                     height={24}
-                    className='block dark:hidden'
+                    className="block dark:hidden"
                     unoptimized={true}
                   />
                   <Image
-                    src={'/images/hero/dark-sofa.svg'}
-                    alt='sofa'
+                    src={"/images/hero/dark-sofa.svg"}
+                    alt="sofa"
                     width={24}
                     height={24}
-                    className='hidden dark:block'
+                    className="hidden dark:block"
                     unoptimized={true}
                   />
                 </div>
-                <h6 className="">{t('bedrooms')}</h6>
+                <h6 className="">
+                  {properties?.bedrooms}{" "}
+                  {locale === "ar" ? "غرف نوم" : "Bedrooms"}
+                </h6>
               </div>
               <div className="flex items-center gap-4">
                 <div className="bg-dark/5 dark:bg-white/5 p-2.5 rounded-[6px]">
                   <Image
-                    src={'/images/hero/tube.svg'}
-                    alt='tube'
+                    src={"/images/hero/tube.svg"}
+                    alt="tube"
                     width={24}
                     height={24}
-                    className='block dark:hidden'
+                    className="block dark:hidden"
                     unoptimized={true}
                   />
                   <Image
-                    src={'/images/hero/dark-tube.svg'}
-                    alt='tube'
+                    src={"/images/hero/dark-tube.svg"}
+                    alt="tube"
                     width={24}
                     height={24}
-                    className='hidden dark:block'
+                    className="hidden dark:block"
                     unoptimized={true}
                   />
                 </div>
-                <h6 className="">{t('bathrooms')}</h6>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="bg-dark/5 dark:bg-white/5 p-2.5 rounded-[6px]">
-                  <Image
-                    src={'/images/hero/parking.svg'}
-                    alt='parking'
-                    width={24}
-                    height={24}
-                    className='block dark:hidden'
-                    unoptimized={true}
-                  />
-                  <Image
-                    src={'/images/hero/dark-parking.svg'}
-                    alt='parking'
-                    width={24}
-                    height={24}
-                    className='hidden dark:block'
-                    unoptimized={true}
-                  />
-                </div>
-                <h6 className="">{t('parkingSpace')}</h6>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="bg-dark/5 dark:bg-white/5 p-2.5 rounded-[6px]">
-                  <Image
-                    src={'/images/hero/bar.svg'}
-                    alt='bar'
-                    width={24}
-                    height={24}
-                    className='block dark:hidden'
-                    unoptimized={true}
-                  />
-                  <Image
-                    src={'/images/hero/dark-bar.svg'}
-                    alt='bar'
-                    width={24}
-                    height={24}
-                    className='hidden dark:block'
-                    unoptimized={true}
-                  />
-                </div>
-                <h6 className="">{t('barAreas')}</h6>
+                <h6 className="">
+                  {properties?.bathrooms}{" "}
+                  {locale === "ar" ? "حمامات" : "Bathrooms"}
+                </h6>
               </div>
             </div>
-            <div className={`flex gap-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
-              <Link href="/contactus" className="py-4 px-8 bg-primary hover:bg-dark duration-300 rounded-full text-white">
-                {t('getInTouch')}
+            <div className={`flex gap-10 `}>
+              <Link
+                href={`/${locale}/properties/${properties?.id}`}
+                className="py-4 px-8 bg-primary hover:bg-dark duration-300 rounded-full text-white"
+              >
+                {locale === "ar" ? "تفاصيل" : "Details"}
               </Link>
               <div>
                 <h4 className="text-3xl text-dark dark:text-white font-medium">
-                  {t('price')}
+                  {properties?.price} {locale === "ar" ? "ج.م" : "EG"}
                 </h4>
                 <p className="text-base text-dark/50">
-                  {t('discountedPrice')}
+                  {locale === "ar" ? "سعر" : "Price"}
                 </p>
               </div>
             </div>

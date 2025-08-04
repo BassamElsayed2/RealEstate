@@ -1,4 +1,5 @@
 export type NavLinks = {
-  label: string
-  href: string
-}
+  label_en: string;
+  label_ar: string;
+  href: string;
+};

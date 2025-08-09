@@ -116,7 +116,7 @@ const FeaturedProperty: React.FC = () => {
             </div>
 
             <div
-              className="text-base text-dark/50 dark:text-white/50"
+              className="text-base text-dark/50 dark:text-white/50 force-font"
               dangerouslySetInnerHTML={{
                 __html:
                   (locale === "en"

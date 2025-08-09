@@ -221,9 +221,10 @@ export default function Details() {
                 </div>
               </div>
             </div> */}
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-5 ">
               <h4>
                 <div
+                  className="force-font"
                   dangerouslySetInnerHTML={{
                     __html:
                       locale === "en"

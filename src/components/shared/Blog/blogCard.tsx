@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import Image from "next/image";
 import { Blog } from "@/types/blog";
-import { format } from "date-fns";
+
 import Link from "next/link";
 import { useLocale } from "next-intl";
 

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { Icon } from "@iconify/react";
 import {
   Dialog,
@@ -32,7 +32,7 @@ const ContactModal: React.FC<ContactModalProps> = ({
   realtorData,
 }) => {
   const locale = useLocale();
-  const t = useTranslations("ContactModal");
+
   const isArabic = locale === "ar";
 
   // استخدام بيانات الوسيط العقاري المرسلة أو البيانات الافتراضية

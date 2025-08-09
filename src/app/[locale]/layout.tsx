@@ -36,18 +36,6 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={dir}>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body
         className={`${
           locale === "ar" ? arabicFont.className : englishFont.className
@@ -55,7 +43,7 @@ export default async function RootLayout({
       >
         <QueryProvider>
           <NextTopLoader color="#07be8a" />
-          <SessionProviderComp session={session}>
+          <SessionProviderComp session={session ?? null}>
             <ThemeProvider
               attribute="class"
               enableSystem={true}

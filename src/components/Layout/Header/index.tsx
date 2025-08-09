@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   const t = useTranslations("Header");
   const [sticky, setSticky] = useState(false);
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
+  useTheme();
   const pathname = usePathname();
   const router = useRouter();
 

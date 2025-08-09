@@ -59,7 +59,7 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
     { value: "rent", label_en: "For Rent", label_ar: "للإيجار" },
   ];
 
-  const handleFilterChange = (key: keyof FilterState, value: any) => {
+  const handleFilterChange = (key: keyof FilterState, value: unknown) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 

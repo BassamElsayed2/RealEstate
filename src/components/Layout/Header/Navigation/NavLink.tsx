@@ -19,7 +19,7 @@ const NavLink: React.FC<NavLinkProps> = ({ item, onClick }) => {
   const currentLocale = pathSegments[0] === "ar" ? "ar" : "en";
   const isArabic = currentLocale === "ar";
 
-  const linkclasses = clsx(
+  clsx(
     "py-3 text-3xl sm:text-5xl font-medium text-white/40 rounded-full group-hover:text-primary",
     {
       "!text-primary": item.href === path,
@@ -27,7 +27,7 @@ const NavLink: React.FC<NavLinkProps> = ({ item, onClick }) => {
     }
   );
 
-  const liststyle = clsx("w-0 h-0.5 bg-primary transition-all duration-300", {
+  clsx("w-0 h-0.5 bg-primary transition-all duration-300", {
     "!block w-6 mr-4": item.href === path && !isArabic,
     "!block w-6 ml-4": item.href === path && isArabic,
     "block w-6": path.startsWith(itemLabelToPath) && !isArabic,

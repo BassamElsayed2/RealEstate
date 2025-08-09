@@ -2,7 +2,7 @@
 
 import React from "react";
 import BlogCard from "@/components/shared/Blog/blogCard";
-import { getAllPosts } from "@/components/utils/markdown";
+
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";

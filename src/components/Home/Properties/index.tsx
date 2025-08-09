@@ -2,7 +2,7 @@
 
 import { Icon } from "@iconify/react";
 import PropertyCard from "./Card/Card";
-import { propertyHomes } from "@/app/api/propertyhomes";
+
 import { useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import { getPropertie } from "../Services/apiProperties";

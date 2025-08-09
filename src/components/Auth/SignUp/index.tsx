@@ -6,12 +6,12 @@ import SocialSignUp from "../SocialSignUp";
 import Logo from "@/components/Layout/Header/BrandLogo/Logo";
 import { useContext, useState } from "react";
 import AuthDialogContext from "@/app/context/AuthDialogContext";
-const SignUp = ({ signUpOpen }: { signUpOpen?: any }) => {
+const SignUp = ({ signUpOpen }: { signUpOpen?: (value: boolean) => void }) => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const authDialog = useContext(AuthDialogContext);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     setLoading(true);
@@ -27,7 +27,7 @@ const SignUp = ({ signUpOpen }: { signUpOpen?: any }) => {
       body: JSON.stringify(finalData),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(() => {
         toast.success("Successfully registered");
         setLoading(false);
         router.push("/");

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ interface SearchFiltersProps {
   onSearch: (filters: FilterState) => void;
   onReset: () => void;
   isLoading?: boolean;
+  initialFilters?: FilterState;
 }
 
 export interface FilterState {
@@ -25,6 +26,7 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
   onSearch,
   onReset,
   isLoading = false,
+  initialFilters,
 }) => {
   const locale = useLocale();
   const [showAdvanced, setShowAdvanced] = useState(false);
@@ -37,6 +39,13 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
     areaRange: [0, 1000],
     operation: "",
   });
+
+  // تطبيق الفلاتر الأولية عند تغيير initialFilters
+  useEffect(() => {
+    if (initialFilters) {
+      setFilters(initialFilters);
+    }
+  }, [initialFilters]);
 
   const propertyTypes = [
     { value: "apartment", label_en: "Apartment", label_ar: "شقة" },
@@ -59,15 +68,16 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
   };
 
   const handleReset = () => {
-    setFilters({
+    const resetFilters: FilterState = {
       search: "",
       propertyType: "",
-      priceRange: [0, 1000000],
+      priceRange: [0, 1000000] as [number, number],
       bedrooms: 0,
       bathrooms: 0,
-      areaRange: [0, 1000],
+      areaRange: [0, 1000] as [number, number],
       operation: "",
-    });
+    };
+    setFilters(resetFilters);
     onReset();
   };
 
@@ -78,7 +88,7 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-800 p-6 mb-8 backdrop-blur-sm">
+    <div className="bg-white/95 dark:bg-gray-900/95 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 p-6 mb-8 backdrop-blur-md">
       {/* Main Search Bar */}
       <div className="flex flex-col lg:flex-row gap-4 mb-6">
         <div className="flex-1 relative group">
@@ -241,7 +251,7 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
                     filters.priceRange[1],
                   ])
                 }
-                className="flex-1 px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white hover:border-gray-300 dark:hover:border-gray-600"
+                className="flex-1 w-[100px] px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white hover:border-gray-300 dark:hover:border-gray-600"
               />
               <input
                 type="number"
@@ -253,7 +263,7 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
                     parseInt(e.target.value) || 1000000,
                   ])
                 }
-                className="flex-1 px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white hover:border-gray-300 dark:hover:border-gray-600"
+                className="flex-1 w-[100px]   px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white hover:border-gray-300 dark:hover:border-gray-600"
               />
             </div>
           </div>
@@ -274,7 +284,7 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
                     filters.areaRange[1],
                   ])
                 }
-                className="flex-1 px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white hover:border-gray-300 dark:hover:border-gray-600"
+                className="flex-1 w-[100px] px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white hover:border-gray-300 dark:hover:border-gray-600"
               />
               <input
                 type="number"
@@ -286,7 +296,7 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
                     parseInt(e.target.value) || 1000,
                   ])
                 }
-                className="flex-1 px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white hover:border-gray-300 dark:hover:border-gray-600"
+                className="flex-1 w-[100px] px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white hover:border-gray-300 dark:hover:border-gray-600"
               />
             </div>
           </div>

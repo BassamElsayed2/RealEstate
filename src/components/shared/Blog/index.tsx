@@ -55,10 +55,10 @@ const BlogSmall: React.FC = () => {
               />
               {t("blog")}
             </p>
-            <h2 className="lg:text-52 text-40 font-medium dark:text-white">
+            <h2 className="lg:text-[30px] text-[20px] font-medium dark:text-white">
               {t("realEstateInsights")}
             </h2>
-            <p className="text-dark/50 dark:text-white/50 text-xm">
+            <p className="text-dark/50 dark:text-white/50 text-[15px]">
               {t("stayAheadInThePropertyMarket")}
             </p>
           </div>

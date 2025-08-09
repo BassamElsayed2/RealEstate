@@ -97,7 +97,7 @@ const FeaturedProperty: React.FC = () => {
                 />
                 {t("featuredProperty")}
               </p>
-              <h2 className="lg:text-52 text-40 font-medium text-dark dark:text-white">
+              <h2 className="lg:text-[30px] text-[20px] font-medium text-dark dark:text-white">
                 {locale === "ar" ? properties?.name_ar : properties?.name_en}
               </h2>
               <div className="flex items-center gap-2.5">

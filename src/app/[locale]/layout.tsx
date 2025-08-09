@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque } from "next/font/google";
+import { Bricolage_Grotesque, Noto_Kufi_Arabic } from "next/font/google";
 import "@/app/globals.css";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
@@ -8,10 +8,10 @@ import NextTopLoader from "nextjs-toploader";
 import SessionProviderComp from "@/components/nextauth/SessionProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
-import { useMessages } from "next-intl";
 import QueryProvider from "@/components/utils/QueryProvider";
 
-const font = Bricolage_Grotesque({ subsets: ["latin"] });
+const englishFont = Bricolage_Grotesque({ subsets: ["latin"] });
+const arabicFont = Noto_Kufi_Arabic({ subsets: ["arabic"] });
 
 export const metadata: Metadata = {
   title: "Homely - A Real Estate Framer Template",
@@ -24,19 +24,35 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  session: any;
-  params: { locale: string };
+  session?: object | null;
+  params: Promise<{ locale: string }>;
 }>) {
-  const messages = (await import(`../../../messages/${params.locale}.json`))
-    .default;
+  const { locale } = await params;
+  const messages = (await import(`../../../messages/${locale}.json`)).default;
   if (!messages) return notFound();
 
   // Determine direction based on locale
-  const dir = params.locale === "ar" ? "rtl" : "ltr";
+  const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <html lang={params.locale} dir={dir}>
-      <body className={`${font.className} bg-white dark:bg-black antialiased`}>
+    <html lang={locale} dir={dir}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body
+        className={`${
+          locale === "ar" ? arabicFont.className : englishFont.className
+        } bg-white dark:bg-black antialiased`}
+      >
         <QueryProvider>
           <NextTopLoader color="#07be8a" />
           <SessionProviderComp session={session}>
@@ -45,10 +61,7 @@ export default async function RootLayout({
               enableSystem={true}
               defaultTheme="light"
             >
-              <NextIntlClientProvider
-                locale={params.locale}
-                messages={messages}
-              >
+              <NextIntlClientProvider locale={locale} messages={messages}>
                 <Header />
                 {children}
                 <Footer />

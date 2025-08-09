@@ -76,7 +76,7 @@ const PropertyCard: React.FC<{ item: PropertyHomes }> = ({ item }) => {
               }`}
             >
               <Icon icon={"solar:bed-linear"} width={20} height={20} />
-              <p className="text-sm mobile:text-base font-normal text-black dark:text-white">
+              <p className="text-sm mobile:text-base font-normal text-black dark:text-white text-center">
                 {item.bedrooms} {locale === "ar" ? "غرف نوم" : "Bedrooms"}
               </p>
             </div>
@@ -88,7 +88,7 @@ const PropertyCard: React.FC<{ item: PropertyHomes }> = ({ item }) => {
               }`}
             >
               <Icon icon={"solar:bath-linear"} width={20} height={20} />
-              <p className="text-sm mobile:text-base font-normal text-black dark:text-white">
+              <p className="text-sm mobile:text-base font-normal text-black dark:text-white text-center">
                 {item.bathrooms} {locale === "ar" ? "حمامات" : "Bathrooms"}
               </p>
             </div>
@@ -104,7 +104,7 @@ const PropertyCard: React.FC<{ item: PropertyHomes }> = ({ item }) => {
                 width={20}
                 height={20}
               />
-              <p className="text-sm mobile:text-base font-normal text-black dark:text-white">
+              <p className="text-sm mobile:text-base font-normal text-black dark:text-white text-center">
                 {item.area}m<sup>2</sup>
               </p>
             </div>

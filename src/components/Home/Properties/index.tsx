@@ -32,10 +32,10 @@ const Properties: React.FC = () => {
               {t("properties")}
             </p>
           </div>
-          <h2 className="text-40 lg:text-52 font-medium text-black dark:text-white text-center tracking-tight leading-11 mb-2">
+          <h2 className="text-[20px] lg:text-[30px] font-medium text-black dark:text-white text-center tracking-tight leading-11 mb-2">
             {t("discoverHomes")}
           </h2>
-          <p className="text-xm font-normal text-black/50 dark:text-white/50 text-center">
+          <p className="text-[15px] font-normal text-black/50 dark:text-white/50 text-center">
             {t("ComfortUnite")}
           </p>
         </div>

@@ -4,11 +4,15 @@ import PropertyCard from "@/components/Home/Properties/Card/Card";
 import SearchFilters, { FilterState } from "./SearchFilters";
 import { useQuery } from "@tanstack/react-query";
 import { getPropertie } from "@/components/Home/Services/apiProperties";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { PropertyHomes } from "@/types/properyHomes";
 import { Icon } from "@iconify/react";
+import { useSearchParams } from "next/navigation";
+import { useLocale } from "next-intl";
 
 const PropertiesListing: React.FC = () => {
+  const searchParams = useSearchParams();
+  const locale = useLocale();
   const { data: properties, isLoading } = useQuery({
     queryKey: ["properties"],
     queryFn: getPropertie,
@@ -23,6 +27,27 @@ const PropertiesListing: React.FC = () => {
     areaRange: [0, 1000],
     operation: "",
   });
+
+  // تطبيق معاملات البحث من URL عند تحميل الصفحة
+  useEffect(() => {
+    const newFilters: FilterState = {
+      search: searchParams.get("search") || "",
+      propertyType: searchParams.get("propertyType") || "",
+      priceRange: [
+        parseInt(searchParams.get("minPrice") || "0"),
+        parseInt(searchParams.get("maxPrice") || "1000000"),
+      ],
+      bedrooms: parseInt(searchParams.get("bedrooms") || "0"),
+      bathrooms: parseInt(searchParams.get("bathrooms") || "0"),
+      areaRange: [
+        parseInt(searchParams.get("minArea") || "0"),
+        parseInt(searchParams.get("maxArea") || "1000"),
+      ],
+      operation: searchParams.get("operation") || "",
+    };
+
+    setFilters(newFilters);
+  }, [searchParams]);
 
   // Filter properties based on search criteria
   const filteredProperties = useMemo(() => {
@@ -111,13 +136,21 @@ const PropertiesListing: React.FC = () => {
           onSearch={handleSearch}
           onReset={handleReset}
           isLoading={isLoading}
+          initialFilters={filters}
         />
 
         {/* Results Count */}
         <div className="mb-8">
           <p className="text-gray-600 dark:text-gray-400">
             {filteredProperties.length}{" "}
-            {filteredProperties.length === 1 ? "property" : "properties"} found
+            {filteredProperties.length === 1
+              ? locale === "ar"
+                ? "عقار"
+                : "property"
+              : locale === "ar"
+              ? "عقارات"
+              : "properties"}{" "}
+            {locale === "ar" ? "تم العثور عليها" : "found"}
           </p>
         </div>
 
@@ -141,10 +174,14 @@ const PropertiesListing: React.FC = () => {
               />
             </div>
             <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-2">
-              No properties found
+              {locale === "ar"
+                ? "لم يتم العثور على عقارات"
+                : "No properties found"}
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Try adjusting your search criteria or filters
+              {locale === "ar"
+                ? "جرب تعديل معايير البحث أو الفلاتر"
+                : "Try adjusting your search criteria or filters"}
             </p>
           </div>
         )}

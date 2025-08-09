@@ -72,14 +72,14 @@ const Header: React.FC = () => {
             : "shadow-none top-0"
         }`}
       >
-        <div className="flex justify-between items-center gap-2 w-full">
+        <div className="headerlogo flex justify-between items-center gap-2 w-full">
           <div>
             <Link href={`/${currentLocale}`}>
               <Image
-                src={"/images/header/dark-logo.svg"}
+                src={"/images/header/logo2.png"}
                 alt="logo"
-                width={150}
-                height={68}
+                width={192}
+                height={66}
                 unoptimized={true}
                 className={`${
                   isHomepage
@@ -92,10 +92,10 @@ const Header: React.FC = () => {
                 }`}
               />
               <Image
-                src={"/images/header/logo.svg"}
+                src={"/images/header/logo2.png"}
                 alt="logo"
-                width={150}
-                height={68}
+                width={192}
+                height={66}
                 unoptimized={true}
                 className={`${
                   isHomepage
@@ -128,29 +128,6 @@ const Header: React.FC = () => {
               {isArabic ? "EN" : "AR "}
             </button>
 
-            <button
-              className="hover:cursor-pointer"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              <Icon
-                icon={"solar:sun-bold"}
-                width={32}
-                height={32}
-                className={`dark:hidden block ${
-                  isHomepage
-                    ? sticky
-                      ? "text-dark"
-                      : "text-white"
-                    : "text-dark"
-                }`}
-              />
-              <Icon
-                icon={"solar:moon-bold"}
-                width={32}
-                height={32}
-                className="dark:block hidden text-white"
-              />
-            </button>
             <div
               className={`hidden md:block ${
                 isArabic ? "border-l border-r-0 pr-0 pl-6" : "border-r pr-6"
@@ -167,13 +144,13 @@ const Header: React.FC = () => {
                 }`}
               >
                 <Icon icon={"ph:phone-bold"} width={24} height={24} />
-                +1-212-456-789
+                01553841793
               </Link>
             </div>
             <div>
               <button
                 onClick={() => setNavbarOpen(!navbarOpen)}
-                className={`flex items-center gap-3 p-2 sm:px-5 sm:py-3 rounded-full font-semibold hover:cursor-pointer border ${
+                className={`headermenu flex items-center gap-3 p-2 sm:px-5 sm:py-3 rounded-full font-semibold hover:cursor-pointer border ${
                   isHomepage
                     ? sticky
                       ? "text-white bg-dark dark:bg-white dark:text-dark dark:hover:text-white dark:hover:bg-dark hover:text-dark hover:bg-white border-dark dark:border-white"

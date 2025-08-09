@@ -4,15 +4,17 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { Icon } from "@iconify/react";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useLocale } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import { getPropertyById } from "@/components/Home/Services/apiProperties";
+import ContactModal from "@/components/shared/ContactModal";
+import { useContactModal } from "@/hooks/useContactModal";
 
 export default function Details() {
   const { slug } = useParams();
   const locale = useLocale();
+  const { isOpen, openModal, closeModal } = useContactModal();
 
   // const item = propertyHomes.find((item) => item.slug === slug);
 
@@ -220,15 +222,16 @@ export default function Details() {
               </div>
             </div> */}
             <div className="flex flex-col gap-5">
-              <div
-                className="text-base text-dark/50 dark:text-white/50"
-                dangerouslySetInnerHTML={{
-                  __html:
-                    locale === "en"
-                      ? properite?.details_en
-                      : properite?.details_ar,
-                }}
-              ></div>
+              <h4>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      locale === "en"
+                        ? properite?.details_en
+                        : properite?.details_ar,
+                  }}
+                />
+              </h4>
             </div>
 
             <iframe
@@ -250,12 +253,12 @@ export default function Details() {
               <p className="text-sm text-dark/50 dark:text-white">
                 {locale === "ar" ? "السعر" : "Price"}
               </p>
-              <Link
-                href="#"
+              <button
+                onClick={openModal}
                 className="py-4 px-8 bg-primary text-white rounded-full w-full block text-center hover:bg-dark duration-300 text-base mt-8 hover:cursor-pointer"
               >
                 {locale === "ar" ? "تواصل معنا" : "Get in touch"}
-              </Link>
+              </button>
               <div className="absolute right-0 top-4 -z-[1]">
                 <Image
                   src="/images/properties/vector.svg"
@@ -309,6 +312,13 @@ export default function Details() {
           </div>
         </div>
       </div>
+
+      {/* Contact Modal */}
+      <ContactModal
+        isOpen={isOpen}
+        onClose={closeModal}
+        realtorData={properite?.realtor_id}
+      />
     </section>
   );
 }

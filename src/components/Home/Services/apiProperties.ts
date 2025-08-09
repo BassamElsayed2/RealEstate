@@ -1,7 +1,11 @@
 import supabase from "./supabase";
 
 export async function getPropertie() {
-  const { data, error } = await supabase.from("properties").select("*");
+  const { data, error } = await supabase.from("properties").select(
+    `
+      *
+    `
+  );
 
   if (error) {
     console.error("فشل في جلب العقار:", error.message);
@@ -29,7 +33,12 @@ export async function getSpecialProperty() {
 export async function getPropertyById(id: string) {
   const { data, error } = await supabase
     .from("properties")
-    .select("*")
+    .select(
+      `
+      *,
+      realtor_id:Realtor(id, name, number , email , image)
+    `
+    )
     .eq("id", id)
     .single();
 

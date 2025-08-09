@@ -42,8 +42,8 @@ const NavLink: React.FC<NavLinkProps> = ({ item, onClick }) => {
         isArabic ? "flex-row-reverse" : ""
       }`}
     >
-      <div className={liststyle} />
-      <Link href={item.href} className={linkclasses} onClick={onClick}>
+      <div className="mostafa" />
+      <Link href={item.href} className="headerlinks" onClick={onClick}>
         {isArabic ? item.label_ar : item.label_en}
       </Link>
     </li>

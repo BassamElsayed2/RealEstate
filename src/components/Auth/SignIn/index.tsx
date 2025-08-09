@@ -15,7 +15,7 @@ const Signin = ({ signInOpen }: { signInOpen?: (value: boolean) => void }) => {
   const [, setError] = useState("");
   const authDialog = useContext(AuthDialogContext);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = await signIn("credentials", {
       redirect: false,
@@ -27,7 +27,7 @@ const Signin = ({ signInOpen }: { signInOpen?: (value: boolean) => void }) => {
     }
     if (result?.status === 200) {
       setTimeout(() => {
-        signInOpen(false);
+        signInOpen?.(false);
       }, 1200);
       authDialog?.setIsSuccessDialogOpen(true);
       setTimeout(() => {

@@ -11,7 +11,7 @@ const SignUp = ({ signUpOpen }: { signUpOpen?: (value: boolean) => void }) => {
   const [, setLoading] = useState(false);
   const authDialog = useContext(AuthDialogContext);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoading(true);
@@ -37,7 +37,7 @@ const SignUp = ({ signUpOpen }: { signUpOpen?: (value: boolean) => void }) => {
         setLoading(false);
       });
     setTimeout(() => {
-      signUpOpen(false);
+      signUpOpen?.(false);
     }, 1200);
     authDialog?.setIsUserRegistered(true);
 

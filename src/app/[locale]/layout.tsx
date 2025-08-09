@@ -9,6 +9,7 @@ import SessionProviderComp from "@/components/nextauth/SessionProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import QueryProvider from "@/components/utils/QueryProvider";
+import { Session } from "next-auth";
 
 const englishFont = Bricolage_Grotesque({ subsets: ["latin"] });
 const arabicFont = Noto_Kufi_Arabic({ subsets: ["arabic"] });
@@ -24,7 +25,7 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  session?: object | null;
+  session?: Session | null;
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
